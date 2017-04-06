@@ -39,6 +39,15 @@ body {
     font-family: Helvetica, sans-serif;
 }
 
+.container {
+    width: 980px;
+    margin: 20px auto;
+}
+
+#html {
+    margin-top: 20px;
+}
+
 .height {
     max-height: 500px;
     transition: max-height 200ms ease-in-out;
@@ -163,18 +172,39 @@ h1 {
     z-index: 3;
 }
 
+.input-date {
+    height: 50px; width: 150px;
+    -webkit-appearance: none;
+    border-radius: 5px;
+    border: 0;
+    padding: 10px;
+}
+
+.line {
+    margin: 5px 0;
+}
+
+label {
+    color: #fff;
+    width: 170px;
+    display: inline-block;
+}
+
 .form {
     display: block;
     width: 980px;
-    height: 50px;
+    height: auto;
     margin: 25px auto 0 auto;
     z-index: 3;
+    border: solid 1px gray;
+    padding: 20px;
+    border-radius: 5px;
 }
 
 .input {
     display: inline-block;
     margin-right: -4px;
-    width: 78%;
+    width: 100%;
     margin-right: 1%;
     border: 0;
     border: solid 1px #eee;
@@ -196,6 +226,7 @@ h1 {
     text-transform: uppercase;
     font-size: 12px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 .info {

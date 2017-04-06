@@ -10,8 +10,20 @@
     </head>
     <body>
         <h1>All around the world</h1>
-        <form class="form" action="index.html" method="post" data="address">
+        <form class="form" action="index.html" method="post" data="">
             <input type="text" name="ville" placeholder="Entrez le nom d'une ville" id="my-city" class="input">
+            <div class="line">
+                <label for="date-depart">Date de départ</label>
+                <input type="date" class="input-date" id="date-depart">
+            </div>
+            <div class="line">
+                <label for="date-arrivee">Date de départ</label>
+                <input type="date" class="input-date" id="date-arrivee">
+            </div>
+            <div class="line">
+                <label for="date-arrivee">Nombre de voyageurs</label>
+                <input type="number" class="input-date" id="nb-voyageurs">
+            </div>
             <input type="submit" name="search" value="Rechercher" class="submit">
         </form>
 

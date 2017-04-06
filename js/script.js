@@ -2,20 +2,37 @@ var iterator = 0;
 
 $( document ).ready( function()
 {
-    // On récupère la latitude et la longitude avec l'API de GoogleMaps...
+    // Au clic sur le bouton "Rechercher"...
     $( ".form" ).bind( "submit", function(e) {
         e.preventDefault();
 
         var myCity = $("#my-city").val();
+        var dateDep = $("#date-depart").val();
+        var dateArr = $("#date-arrivee").val();
+        var nbVoya = $("#nb-voyageurs").val();
 
+        // On execute une requête AJAX vers l'API de Airbnb
+        var request_air = $.ajax({
+            url: "http://localhost:3000/airbnb/",
+            method: "POST",
+            data: {date1: dateDep, date2: dateArr, nbV: nbVoya},
+            dataType: "json"
+        });
+
+        request_air.done(function(response) {
+            console.log(request_air);
+        });
+
+        // On execute une requête AJAX vers l'API de google maps
         var request = $.ajax({
           url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCxdr9FCMs8F3BRqWHBnu4ehaw0G7yEZI4",
           method: "GET",
-          data: { address :  myCity},
+          data: {address : myCity},
           dataType: "json"
         });
 
-        request.done(function( response ) {
+        // On récupère la réponse renvoyée par la requête
+        request.done(function(response) {
             console.log(response);
             var nb_result = response.status;
             var blocError = document.getElementById('bloc-error');
@@ -24,6 +41,7 @@ $( document ).ready( function()
             if(nb_result == "ZERO_RESULTS") {
                 // TODO message erreur...
             } else {
+                // On récupère la latitude et la longitude à partir des données JSON
                 var lat = response.results[0].geometry.location.lat;
                 var lng = response.results[0].geometry.location.lng;
                 var ville = response.results[0].address_components[0].short_name;
@@ -56,6 +74,7 @@ $( document ).ready( function()
                     var temperature2 = Math.round(temperature);
                     var temperature3 = temperature2+"°";
 
+                    // On attribue un icon à chaque valeur renvoyée par l'API weather
                     var icon = response2.daily.data[0].icon;
                     switch (icon) {
                         case "clear-day":
@@ -90,27 +109,20 @@ $( document ).ready( function()
                             break;
                     }
 
+                    // On attribue une couleur au bloc en fonction de la température
                     if( temperature2 < -2 ) {
-
                         classColor = ' bg-very-cold';
-
                     } else if( temperature2 < 2 ) {
-
                         classColor = ' bg-cold';
-
                     } else if( temperature2 < 12 ) {
-
                         classColor = ' bg-neutral';
-
                     } else if( temperature2 < 25 ) {
-
                         classColor = ' bg-hot';
-
                     } else {
-
                         classColor = ' bg-very-hot';
                     }
 
+                    // On construit l'HTML qui va afficher le résultat
                     var tab = response.results[0].address_components;
                     $.each( tab, function( key ) {
                         if(response.results[0].address_components[key].types[0] == "country") {
@@ -130,6 +142,7 @@ $( document ).ready( function()
                                 '<div class="more" id="jsMore"></div>' +
                             '</div>';
 
+                            // On insère les data dans l'HTML
                             document.getElementById("htmlFirst").innerHTML = htmlFirst;
                             var item = $( '#bloc-meteo-' + iterator );
                             console.log(item);
@@ -153,12 +166,10 @@ $( document ).ready( function()
                         for(i=1 ; i<8 ; i++) {
 
                             var date = new Date(response2.daily.data[i].time*1000);
-
                             var mois = date.getMonth();
                             var t_mois = new Array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
                             var j = date.getDate();
                             var day = j+" "+t_mois[mois];
-
                             var summaryHebdo = response2.daily.data[i].summary;
                             var temperatureMinHebdo = Math.round(response2.daily.data[i].temperatureMin);
                             var temperatureMaxHebdo = Math.round(response2.daily.data[i].temperatureMax);
@@ -197,25 +208,15 @@ $( document ).ready( function()
                                     iconHebdo = "wi-night-partly-cloudy";
                                     break;
                             }
-
                             if( temperatureMoy < -2 ) {
-
                                 classColor = ' bg-very-cold';
-
                             } else if( temperatureMoy < 2 ) {
-
                                 classColor = ' bg-cold';
-
                             } else if( temperatureMoy < 12 ) {
-
                                 classColor = ' bg-neutral';
-
                             } else if( temperatureMoy < 25 ) {
-
                                 classColor = ' bg-hot';
-
                             } else {
-
                                 classColor = ' bg-very-hot';
                             }
                             html += '' +
@@ -227,14 +228,11 @@ $( document ).ready( function()
                                 '<div class="sep sep--hebdo"></div>' +
                                 '<div class="summary">'+summaryHebdo+'</div>' +
                             '</div>';
-
                             document.getElementById("html").innerHTML = html;
-                        }
-                    });
-
-                });
-
-            }
-        });
-    });
-} );
+                        } // endfor
+                    }); // end of $( ".more" )
+                }); // end of use API weather
+            } // end of else (if results)
+        }); // end of use API google maps
+    }); // click on submit
+} ); // ready function
