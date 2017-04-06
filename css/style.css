@@ -39,23 +39,6 @@ body {
     font-family: Helvetica, sans-serif;
 }
 
-.container {
-    width: 980px;
-    margin: 0 auto 60px auto;
-}
-
-.container-full {
-    width: 100%;
-    height: 500px;
-    max-height: 150px;
-    padding: 20px;
-    background: url(../img/motif.png) repeat;
-    border-top: solid 2px #25abcd;
-    border-bottom: solid 2px #25abcd;
-    margin-bottom: 25px;
-    transition: max-height 200ms ease-in-out;
-}
-
 .height {
     max-height: 500px;
     transition: max-height 200ms ease-in-out;
@@ -171,11 +154,12 @@ body {
 
 h1 {
     display: block;
-    width: 980px;
     color: #fff;
     margin: auto;
     text-transform: uppercase;
+    text-align: center;
     font-size: 40px;
+    margin-top: 50px;
     z-index: 3;
 }
 
@@ -183,7 +167,7 @@ h1 {
     display: block;
     width: 980px;
     height: 50px;
-    margin: 60px auto 0 auto;
+    margin: 25px auto 0 auto;
     z-index: 3;
 }
 

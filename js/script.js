@@ -1,35 +1,8 @@
 var iterator = 0;
-var widthWrapperHist = 0;
 
 $( document ).ready( function()
 {
-
-    $( ".home" ).click(function() {
-        location.reload();
-    });
-
-    /*
-        On remonte le bloc principal
-    */
-    $( '.submit' ).unbind( 'click' );
-    $( '.submit' ).bind( 'click', function()
-    {
-
-
-    } );
-
-    /*
-    $( '.input' ).unbind( 'blur' );
-    $( '.input' ).bind( 'blur', function()
-    {
-        $( '.bg' ).removeClass( 'bg--move' );
-    } );
-    */
-
-    /*
-        On récupère la latitude et la longitude avec l'API de GoogleMaps...
-    */
-
+    // On récupère la latitude et la longitude avec l'API de GoogleMaps...
     $( ".form" ).bind( "submit", function(e) {
         e.preventDefault();
 
@@ -43,40 +16,19 @@ $( document ).ready( function()
         });
 
         request.done(function( response ) {
-
             console.log(response);
-            var nb = response.status;
+            var nb_result = response.status;
             var blocError = document.getElementById('bloc-error');
             var clearMain = document.getElementById('htmlFirst');
             var clearMore = document.getElementById('html');
-            if(nb == "ZERO_RESULTS") {
-
-                TweenMax.to(blocError,0.8,{opacity:'1', marginLeft:'0px',ease:Elastic.easeOut});
-                TweenMax.to(clearMain,0.4,{opacity:'0',ease:Power1.easeIn});
-                TweenMax.to(clearMore,0.4,{opacity:'0',ease:Power1.easeIn});
-
+            if(nb_result == "ZERO_RESULTS") {
+                // TODO message erreur...
             } else {
-
-                $(".container-full").addClass("height");
-                $(".para").addClass("none");
-                $(".bloc-hist").removeClass("none");
-
-                TweenMax.to(blocError,0,{opacity:'0',ease:Elastic.easeOut});
-                TweenMax.to(clearMain,0.4,{opacity:'1',marginTop:'-80px',ease:Power1.easeIn});
-                TweenMax.to(clearMore,0.4,{opacity:'0',ease:Power1.easeIn});
-                $(".bloc1").addClass("show");
-                var infos = document.getElementById('infos');
-                var bg = document.getElementById('bg-top');
-                TweenMax.to(infos,0.3,{opacity:'0',ease:Power1.easeIn});
-                TweenMax.to(bg,0.5,{maxHeight:'300px',ease:Power1.easeIn});
-
                 var lat = response.results[0].geometry.location.lat;
                 var lng = response.results[0].geometry.location.lng;
                 var ville = response.results[0].address_components[0].short_name;
 
-                /*
-                  On injecte la latitude et la longitude stockées dans les précédantes variable dans l'API weather...
-                */
+                // On injecte la latitude et la longitude stockées dans les précédantes variable dans l'API weather...
                 var request2 = $.ajax({
                     url: "https://api.forecast.io/forecast/30f9a5aeebf2a690ff6b85c490120431/"+lat+","+lng+"?units=ca&lang=fr",
                     method: "GET",
@@ -84,17 +36,13 @@ $( document ).ready( function()
                 });
 
                 request2.done(function( response2 ) {
-
                     console.log(response2);
                     iterator++;
 
                     var summary = response2.currently.summary;
-
                     var date = new Date(response2.currently.time*1000);
-
                     var mois = date.getMonth();
                     var t_mois = new Array("Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre");
-
                     var j = date.getDate();
                     var jours = date.getDay();
                     var t_jours = new Array("Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi");
@@ -181,27 +129,8 @@ $( document ).ready( function()
                                 '<div class="summary" id="summary">'+summary+'</div>' +
                                 '<div class="more" id="jsMore"></div>' +
                             '</div>';
-                            var htmlHist = '' +
-                            '<div class="bloc-meteo result result--hist'+classColor+'" id="bloc-meteo-' + iterator + '">' +
-                                '<div class="clear clear-' + iterator + '"><span class="clear__inner center-h-v"></span></div>' +
-                                '<div class="result__data">' +
-                                    '<div class="left">'+hours+'</div>' +
-                                    '<div class="right">'+day+'</div>' +
-                                '</div>' +
-                                '<div class="picto wi"></div>' +
-                                '<div class="ville" id="ville">'+ville+'</div>' +
-                                '<div class="pays" id="pays">'+pays+'</div>' +
-                                '<div class="temperature">'+temperature3+'</div>' +
-                                '<div class="sep"></div>' +
-                                '<div class="summary" id="summary">'+summary+'</div>' +
-                            '</div>';
 
                             document.getElementById("htmlFirst").innerHTML = htmlFirst;
-                            $( "#htmlHist" ).append(htmlHist);
-                            widthWrapperHist += $( '#bloc-meteo-' + iterator ).outerWidth() + 10;
-                            $( '#htmlHist' ).css( 'width', widthWrapperHist + 'px' );
-                            $( '.pscroll' ).perfectScrollbar();
-
                             var item = $( '#bloc-meteo-' + iterator );
                             console.log(item);
 
@@ -217,8 +146,6 @@ $( document ).ready( function()
                     $( ".more" ).click(function() {
 
                         var btnMore = document.getElementById('jsMore');
-                        TweenMax.to(btnMore,0.3,{opacity:'0', right:'0px',ease:Power1.easeIn});
-                        TweenMax.to(clearMore,0.4,{opacity:'1',ease:Power1.easeIn});
 
                         var i=0;
                         var html = '';
