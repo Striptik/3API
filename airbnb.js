@@ -1,9 +1,3 @@
-/**
- * No Api key needed
- *
- * Npm install : Lodash, require, Bluebird promise
- *
- */
 
 
 // Extern Dependencies,
@@ -91,23 +85,6 @@ function search(options) {
 }
 
 
-
-
-//
-// search({
-//     location: 'Melun', // City
-//     checkin: '07/04/2017', // Arrival date
-//     checkout: '14/04/2017', // departure date
-//     guests: 8, // nbr guest
-//     page: 1
-// }).then(function(results) {
-//     console.log('search result')
-//     console.log(results.results_json)
-//     for (let i = 0; i < results.results_json.search_results.length; i++) {
-//         console.log(results.results_json.search_results[i])
-//     }
-//
-// });
-
-
-module.exports = search;
+module.exports = {
+    search: search
+};

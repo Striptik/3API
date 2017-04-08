@@ -15,12 +15,12 @@ $( document ).ready( function()
         var request_air = $.ajax({
             url: "http://localhost:3000/airbnb/",
             method: "POST",
-            data: {date1: dateDep, date2: dateArr, nbV: nbVoya},
+            data: {date1: dateDep, date2: dateArr, nbV: nbVoya, city: myCity},
             dataType: "json"
         });
 
         request_air.done(function(response) {
-            console.log(request_air);
+            console.log(response);
         });
 
         // On execute une requête AJAX vers l'API de google maps
