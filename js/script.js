@@ -21,6 +21,30 @@ $( document ).ready( function()
 
         request_air.done(function(response) {
             console.log(response);
+            var results = response.result;
+            var html_airbnb = '';
+
+            for (var i = 0 ; i < results.length ; i++) {
+                var name = response.result[i].hostName;
+                var type = response.result[i].houseType;
+                var place = response.result[i].localisation;
+                var capacity = response.result[i].personCapacity;
+                var image = response.result[i].picture;
+                var beds = response.result[i].beds;
+                var bedrooms = response.result[i].bedrooms;
+
+                html_airbnb += '' +
+                    '<div class="appart">' +
+                    '<div class="appart_image"><img src="'+image+'" alt=""></div>' +
+                    '<div class="appart_info"><div class="appart_type_name"><span class="appart_type">'+type+'</span>, proposé par <span class="appart_name">'+name+'</span></div>' +
+                    '<div class="appart_place">'+place+'</div>' +
+                    '<div class="appart_capacity">Peut accueillir jusqu\'à '+capacity+' personnes.</div>' +
+                    '<div class="appart_room">Nombre de chambres : '+bedrooms+'</div>' +
+                    '<div class="appart_bedrooms">Nombre de lits : '+beds+'</div></div>' +
+                    '</div>';
+                document.getElementById("html-airbnb").innerHTML = html_airbnb;
+            }
+
         });
 
         // On execute une requête AJAX vers l'API de google maps
@@ -144,7 +168,7 @@ $( document ).ready( function()
                                 '<div class="temperature">'+temperature3+'</div>' +
                                 '<div class="sep"></div>' +
                                 '<div class="summary" id="summary">'+summary+'</div>' +
-                                '<div class="more" id="jsMore"></div>' +
+                                '<div class="more" id="jsMore">Voir la météo de la semaine</div>' +
                             '</div>';
 
                             // On insère les data dans l'HTML
