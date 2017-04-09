@@ -4,7 +4,8 @@ var express = require('express'),
 
 function search(req, resp) {
     var params = req.body
-    console.log('parameter for weather : ' + params)
+    console.log('parameter for weather : ')
+    console.log(params) 
 
     if (!params.lat) {
         return resp.status(200).json({

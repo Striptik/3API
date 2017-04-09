@@ -17,7 +17,8 @@ var geocoder = clientGeocoder(options);
 
 function search(req, resp) {
     var params = req.body
-    console.log('parameter for maps : ' + params)
+    console.log('parameter for maps : ')
+    console.log(params)
 
     if (!params.address) {
         return resp.status(200).json({

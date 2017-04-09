@@ -7,7 +7,8 @@ var airbnb = require('./airbnb')
 
 function search(req, res) {
     var params = req.body
-    console.log('parameter for airbnb : ' + params)
+    console.log('parameter for airbnb : ')
+    console.log(params)
 
     if (!params.city) {
         return res.status(200).json({
