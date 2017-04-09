@@ -25,10 +25,10 @@ $( document ).ready( function()
 
         // On execute une requête AJAX vers l'API de google maps
         var request = $.ajax({
-          url: "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyCxdr9FCMs8F3BRqWHBnu4ehaw0G7yEZI4",
-          method: "GET",
-          data: {address : myCity},
-          dataType: "json"
+            url: "http://localhost:3000/maps/",
+            method: "POST",
+            data: {address: myCity},
+            dataType: "json"
         });
 
         // On récupère la réponse renvoyée par la requête
@@ -38,20 +38,28 @@ $( document ).ready( function()
             var blocError = document.getElementById('bloc-error');
             var clearMain = document.getElementById('htmlFirst');
             var clearMore = document.getElementById('html');
-            if(nb_result == "ZERO_RESULTS") {
-                // TODO message erreur...
+            if(response.error) {
+                // mettre un message en rouge
+                console.log(response.error)
             } else {
                 // On récupère la latitude et la longitude à partir des données JSON
-                var lat = response.results[0].geometry.location.lat;
-                var lng = response.results[0].geometry.location.lng;
-                var ville = response.results[0].address_components[0].short_name;
+                var lat = response.lat;
+                var lng = response.lng;
+                var ville = response.city;
 
                 // On injecte la latitude et la longitude stockées dans les précédantes variable dans l'API weather...
                 var request2 = $.ajax({
-                    url: "https://api.forecast.io/forecast/30f9a5aeebf2a690ff6b85c490120431/"+lat+","+lng+"?units=ca&lang=fr",
-                    method: "GET",
-                    dataType: "jsonp"
+                    url: "http://localhost:3000/weather/",
+                    method: "POST",
+                    data: {lat: lat, lng: lng},
+                    dataType: "json"
                 });
+
+                // var request2 = $.ajax({
+                //     url: "https://api.forecast.io/forecast/30f9a5aeebf2a690ff6b85c490120431/"+lat+","+lng+"?units=ca&lang=fr",
+                //     method: "GET",
+                //     dataType: "jsonp"
+                // });
 
                 request2.done(function( response2 ) {
                     console.log(response2);
@@ -123,10 +131,7 @@ $( document ).ready( function()
                     }
 
                     // On construit l'HTML qui va afficher le résultat
-                    var tab = response.results[0].address_components;
-                    $.each( tab, function( key ) {
-                        if(response.results[0].address_components[key].types[0] == "country") {
-                            var pays = response.results[0].address_components[key].long_name;
+                            var pays = response.country;
                             var htmlFirst = '' +
                             '<div class="bloc-meteo result'+classColor+'">' +
                                 '<div class="result__data">' +
@@ -150,9 +155,6 @@ $( document ).ready( function()
                             $( '.clear-' + iterator ).click(function() {
                                 $( item ).fadeOut(500);
                             });
-
-                        }
-                    });
                     $(".picto").addClass(icon);
 
                     // Affiche la météo des 8 prochains jours au clic sur "more"

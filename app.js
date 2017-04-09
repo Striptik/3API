@@ -13,8 +13,20 @@ app.use(function(req, res, next) {
 });
 
 // Router Airbnb
-var airbnbRouter = require('./airbnbRouter')
-app.use('/airbnb', airbnbRouter);
+var airbnbR = require('./airbnb/airbnbRouter')
+app.use('/airbnb', airbnbR);
+
+// Router Maps
+var mapsR = require('./maps/mapsRouter')
+app.use('/maps', mapsR);
+
+// Router Weather
+var weatherR = require('./weather/weatherRouter')
+app.use('/weather', weatherR);
+
+
+
+
 
 
 app.listen(3000, function () {

@@ -1,15 +1,15 @@
 var express = require('express'),
     router = express.Router(),
-    moment = require('moment') ;
+    moment = require('moment')
 
 
 var airbnb = require('./airbnb')
 
 function search(req, res) {
     var params = req.body
+    console.log('parameter for airbnb : ' + params)
 
-
-    if (!typeof params.city) {
+    if (!params.city) {
         return res.status(200).json({
             "error": "Veuillez saisir un nom de ville"
         })
